@@ -1,0 +1,31 @@
+<h1 id="tableLabel">{{title}}</h1>
+
+
+<p *ngIf="!hackerNewsStories"><em>Loading...</em></p>
+<div *ngIf="hackerNewsStories"  class="form-group">
+  <input type="text" class="form-control" placeholder="Search Here" (change)="onChange($event);">
+</div>
+<table class='table table-striped' aria-labelledby="tableLabel" *ngIf="hackerNewsStories">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Title</th>
+      <th>Story link</th>
+      <th>Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let story of hackerNewsStories | paginate: config  | filter:term">
+      <td>{{story.row}}</td>
+      <td>{{ story.title }}</td>
+      <td>
+        <a *ngIf="story.url" href="{{ story.url }}">Link</a>
+        <a *ngIf="!story.url">No link available for this story yet</a>
+      </td>
+      <td>{{story.time | date: fullDate}}</td>
+    </tr>
+  </tbody>
+</table>
+
+<pagination-controls *ngIf="hackerNewsStories" (pageChange)="pageChanged($event)"></pagination-controls>
+
